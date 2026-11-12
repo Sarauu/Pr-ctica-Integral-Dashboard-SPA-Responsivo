@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard SPA Responsivo para Monitoreo de Infraestructura Cloud. Cumplimiento de metodologías UX, 5 Dimensiones de IxD y arquitectura en 3 zonas.">
+  <title>CloudPulse | Panel de Infraestructura Cloud SPA</title>
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/overlays.css">
+</head>
+<body>
+
+  <div class="app-container">
+
+    <aside class="app-sidebar" id="app-sidebar" aria-label="Navegación Principal">
+      <!-- Identidad y Marca -->
+      <div class="sidebar-brand">
+        <div class="brand-wrapper">
+          <div class="brand-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">CloudPulse</span>
+            <span class="brand-tag">INFRAESTRUCTURA v2.4</span>
+          </div>
+        </div>
+        <!-- Botón para cerrar sidebar en móvil -->
+        <button type="button" class="btn btn-ghost btn-icon sidebar-close-btn" id="sidebar-close-btn" aria-label="Cerrar menú lateral">
+          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Menú de Navegación Principal -->
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Telemetría & Control</span>
+
+        <!-- Vista 1: Dashboard Bento Grid -->
+        <a href="#dashboard" class="nav-link is-active" data-view="dashboard" aria-current="page">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+          <span>Métricas Bento Grid</span>
+        </a>
+
+        <!-- Vista 2: Servidores e Instancias -->
+        <a href="#servers" class="nav-link" data-view="servers">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          <span>Servidores Cloud</span>
+        </a>
+      </nav>
+
+      <!-- Pie del Sidebar: User Persona en sesión -->
+      <div class="sidebar-footer">
+        <div class="user-avatar" aria-hidden="true">CM</div>
+        <div class="user-info">
+          <span class="user-name" title="Carlos Mendoza">Carlos Mendoza</span>
+          <span class="user-role">Cloud DevOps Lead</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Backdrop del Sidebar en Móvil -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
+    <header class="app-header">
+      <div class="header-left">
+        <!-- Botón Hamburguesa en Móvil (Mínimo 44x44px) -->
+        <button type="button" class="btn btn-ghost btn-icon sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Abrir menú de navegación">
+          <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <!-- Migas de Pan (Breadcrumbs) -->
+        <nav class="breadcrumbs" aria-label="Ruta de navegación">
+          <div class="breadcrumb-item">
+            <a href="#" data-navigate="dashboard">CloudPulse</a>
+            <span class="breadcrumb-separator" aria-hidden="true">/</span>
+          </div>
+          <div class="breadcrumb-item is-current" aria-current="page">
+            <span id="breadcrumb-current">Métricas Bento Grid</span>
+          </div>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <!-- Selector Conmutable de Modo Oscuro / Claro Nativo (Fase 4) -->
+        <button type="button" class="btn btn-secondary btn-icon" id="theme-toggle-btn" aria-pressed="true" title="Alternar Modo Claro / Oscuro" aria-label="Alternar tema visual">
+          <!-- Icono Sol (Modo Oscuro Activo -> Cambiar a Claro) -->
+          <svg id="theme-icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <!-- Icono Luna (Modo Claro Activo -> Cambiar a Oscuro) -->
+          <svg id="theme-icon-moon" style="display:none;" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
+        <!-- Botón de Acción Directa: Nueva Instancia -->
+        <button type="button" class="btn btn-primary" onclick="ServersModule.openConfigDrawer('srv-us-east-101')">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span class="hide-on-mobile">Configurar Servidor</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-main" id="main-content">
+
+      <section class="spa-view is-active" id="view-dashboard" aria-label="Panel de Métricas en Tiempo Real">
+        <div class="view-header">
+          <div class="view-header-content">
+            <h1>Telemetría de Clúster Cloud</h1>
+            <p>Monitoreo bidimensional en tiempo real de recursos computacionales, red y salud operativa.</p>
+          </div>
+          <div class="view-actions-toolbar">
+            <span class="badge badge-success">
+              <span class="badge-dot"></span> 8 Nodos Sincronizados
+            </span>
+            <button type="button" class="btn btn-secondary" onclick="ChartsModule.init()">
+              <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              <span>Refrescar Telemetría</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bento Grid Layout -->
+        <div class="bento-grid">
+
+          <article class="bento-card bento-span-2x2">
+            <div class="bento-card-header">
+              <span class="bento-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                Telemetría CPU Agregada
+              </span>
+              <span class="badge badge-info">Tiempo Real (3s)</span>
+            </div>
+            <div>
+              <div class="bento-card-value" id="bento-cpu-val">68%</div>
+              <div class="bento-card-meta">
+                <span style="color: var(--color-success-600); font-weight: 600;">↑ 3.2%</span> vs última hora • Promedio de 64 núcleos vCPU
+              </div>
+            </div>
+            <div class="bento-card-body" style="padding-top: var(--space-4);">
+              <!-- Gráfica SVG interactiva suave nativa -->
+              <svg id="cpu-sparkline-svg" viewBox="0 0 360 110" preserveAspectRatio="none" style="width: 100%; height: 130px; overflow: visible;">
+                <defs>
+                  <linearGradient id="cpu-gradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--color-primary-500)" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="var(--color-primary-500)" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path id="cpu-area-path" fill="url(#cpu-gradient)" d=""></path>
+                <path id="cpu-line-path" fill="none" stroke="var(--color-primary-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d=""></path>
+              </svg>
+            </div>
+          </article>
+
+          <!-- Tarjeta Bento 2 (1x1): Gauge Radial de Memoria RAM -->
+          <article class="bento-card bento-span-1x1">
+            <div class="bento-card-header">
+              <span class="bento-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 19v-3"></path><path d="M10 19v-3"></path><path d="M14 19v-3"></path><path d="M18 19v-3"></path><rect x="3" y="5" width="18" height="11" rx="2"></rect></svg>
+                Consumo RAM
+              </span>
+              <span class="badge badge-warning">Carga Alta</span>
+            </div>
+            <div class="bento-card-body" style="align-items: center; justify-content: center; min-height: 110px;">
+              <div style="position: relative; width: 104px; height: 104px;">
+                <svg viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="var(--border-subtle)" stroke-width="8"></circle>
+                  <circle id="ram-gauge-circle" cx="50" cy="50" r="42" fill="none" stroke="var(--color-warning-500)" stroke-width="8" stroke-linecap="round" stroke-dasharray="263.89" stroke-dashoffset="73.8" style="transition: stroke-dashoffset 0.6s ease;"></circle>
+                </svg>
+                <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                  <span id="bento-ram-val" style="font-size: var(--text-xl); font-weight: var(--font-weight-bold); color: var(--text-main);">72%</span>
+                  <span style="font-size: 10px; color: var(--text-muted);">92/128 GB</span>
+                </div>
+              </div>
+            </div>
+            <div class="bento-card-meta" style="justify-content: center;">
+              Buffer cache: 14.2 GB libres
+            </div>
+          </article>
+
+          <!-- Tarjeta Bento 3 (1x1): Almacenamiento NVMe SSD -->
+          <article class="bento-card bento-span-1x1">
+            <div class="bento-card-header">
+              <span class="bento-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="12" x2="2" y2="12"></line><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path><line x1="6" y1="16" x2="6.01" y2="16"></line><line x1="10" y1="16" x2="10.01" y2="16"></line></svg>
+                Storage NVMe
+              </span>
+              <span class="badge badge-success">Saludable</span>
+            </div>
+            <div>
+              <div class="bento-card-value">1.48 TB</div>
+              <div class="bento-card-meta">De 3.0 TB asignados (49%)</div>
+            </div>
+            <div class="bento-card-body" style="justify-content: center; min-height: 80px;">
+              <div style="height: 10px; background: var(--bg-subtle); border-radius: var(--radius-full); overflow: hidden; display: flex;">
+                <div style="width: 34%; background: var(--color-primary-500);" title="Sistema Operativo & Binarios (34%)"></div>
+                <div style="width: 15%; background: var(--color-warning-500);" title="Logs & Índices (15%)"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+                <span>OS / DB: 49%</span>
+                <span>Disponible: 1.52 TB</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Tarjeta Bento 4 (2x1): Tráfico de Red (Throughput In/Out) -->
+          <article class="bento-card bento-span-2x1">
+            <div class="bento-card-header">
+              <span class="bento-card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                Ancho de Banda de Red
+              </span>
+              <span class="badge badge-info">10 Gbps Uplink</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-2);">
+              <div>
+                <div class="bento-card-value" id="bento-net-val">53.0 MB/s</div>
+                <div class="bento-card-meta">Inbound: 31 MB/s • Outbound: 22 MB/s</div>
+              </div>
+            </div>
+            <div class="bento-card-body" style="min-height: 80px;">
+              <svg id="network-chart-svg" viewBox="0 0 300 80" preserveAspectRatio="none" style="width: 100%; height: 75px; overflow: visible;">
+                <path id="net-in-path" fill="none" stroke="var(--color-primary-500)" stroke-width="2" stroke-linejoin="round" d=""></path>
+                <path id="net-out-path" fill="none" stroke="var(--color-success-500)" stroke-width="2" stroke-linejoin="round" stroke-dasharray="4 2" d=""></path>
+              </svg>
+            </div>
+          </article>
+
+          <!-- Tarjeta Bento 5 (1x1): Estado Rápido de Instancias -->
+          <article class="bento-card bento-span-1x1">
+            <div class="bento-card-header">
+              <span class="bento-card-title">Instancias</span>
+              <span class="badge badge-info" id="servers-count-badge">8 activas</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2);">
+              <div style="display: flex; justify-content: space-between; font-size: var(--text-sm);">
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="badge-dot" style="background: var(--color-success-500);"></span> Operativas:</span>
+                <strong>6</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: var(--text-sm);">
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="badge-dot" style="background: var(--color-warning-500);"></span> Carga Alta:</span>
+                <strong style="color: var(--color-warning-600);">1</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: var(--text-sm);">
+                <span style="display: flex; align-items: center; gap: 6px;"><span class="badge-dot" style="background: var(--color-danger-500);"></span> Falla Crítica:</span>
+                <strong style="color: var(--color-danger-600);">1</strong>
+              </div>
+            </div>
+            <div style="margin-top: var(--space-4);">
+              <button type="button" class="btn btn-secondary" style="width: 100%;" data-navigate="servers">
+                Ver Tabla Completa
+              </button>
+            </div>
+          </article>
+
+          <!-- Tarjeta Bento 6 (1x1): Alerta Activa Prioritaria -->
+          <article class="bento-card bento-span-1x1" style="border-left: 4px solid var(--color-danger-500);">
+            <div class="bento-card-header">
+              <span class="bento-card-title" style="color: var(--color-danger-600);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Alerta Crítica
+              </span>
+              <span class="badge badge-danger">SLA Riesgo</span>
+            </div>
+            <div style="font-size: var(--text-xs); color: var(--text-main); margin-top: var(--space-1);">
+              <strong>ml-training-gpu-node</strong> presenta consumo de 98% CPU y disipación térmica crítica.
+            </div>
+            <div style="margin-top: auto; padding-top: var(--space-3);">
+              <button type="button" class="btn btn-danger" style="width: 100%; font-size: var(--text-xs); min-height: 38px;" onclick="ServersModule.openRebootModal('srv-us-west-408')">
+                Intervenir Instancia
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section class="spa-view" id="view-servers" aria-label="Inventario de Servidores Cloud">
+        <div class="view-header">
+          <div class="view-header-content">
+            <h1>Inventario de Instancias Cloud</h1>
+            <p>Control operacional, configuración contextual mediante Drawer y acciones destructivas protegidas con confirmación.</p>
+          </div>
+          <div class="view-actions-toolbar">
+            <button type="button" class="btn btn-primary" onclick="ServersModule.openConfigDrawer('srv-us-east-101')">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Desplegar / Modificar Parámetros</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <!-- Barra de Herramientas de la Tabla (Búsqueda y Filtros) -->
+          <div class="table-toolbar">
+            <div class="table-toolbar-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="table-search-input" class="form-control" placeholder="Buscar por nombre, IP, ID o región..." aria-label="Buscar servidor">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
+              <label for="table-status-filter" class="sr-only">Filtrar por estado</label>
+              <select id="table-status-filter" class="form-control" style="width: auto; min-width: 180px;">
+                <option value="all">Todos los estados</option>
+                <option value="online">Operativo / En Línea</option>
+                <option value="warning">Carga Elevada</option>
+                <option value="danger">Falla Crítica</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Contenedor Responsivo con Scroll Horizontal Seguro -->
+          <div class="table-container">
+            <table class="data-table" aria-label="Lista de servidores e instancias">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre de Instancia / ID</th>
+                  <th scope="col">Región Cloud</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Uso de CPU</th>
+                  <th scope="col">RAM</th>
+                  <th scope="col" style="text-align: right;">Acciones de Control</th>
+                </tr>
+              </thead>
+              <tbody id="servers-table-body">
+                <!-- Inyectado dinámicamente por js/servers-data.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación Accesible -->
+          <div class="table-pagination">
+            <div id="table-pagination-info">Mostrando 1-5 de 8 servidores</div>
+            <div class="pagination-controls">
+              <button type="button" id="table-prev-btn" class="btn btn-secondary btn-icon" aria-label="Página anterior" disabled>
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <span style="padding: 0 var(--space-2); font-size: var(--text-sm); font-weight: 600;">1</span>
+              <button type="button" id="table-next-btn" class="btn btn-secondary btn-icon" aria-label="Página siguiente">
+                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+
+    <!-- DRAWER: PANEL DESLIZANTE CONTEXTUAL DE PARÁMETROS -->
+    <div class="overlay-backdrop drawer-backdrop" id="drawer-backdrop" aria-hidden="true"></div>
+    <aside class="drawer" id="config-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true">
+      <div class="drawer-header">
+        <div class="drawer-title-group">
+          <h2 class="drawer-title" id="drawer-title">Configurar Parámetros</h2>
+          <span class="drawer-subtitle" id="drawer-server-id">srv-us-east-101</span>
+        </div>
+        <button type="button" class="btn btn-ghost btn-icon" id="drawer-close-btn" aria-label="Cerrar panel de configuración">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <form id="drawer-config-form">
+          <!-- Campo 1: Nombre de la Instancia -->
+          <div class="form-group">
+            <label for="drawer-server-name" class="form-label">
+              <span>Nombre / Hostname</span>
+              <span class="form-label-hint">Requerido</span>
+            </label>
+            <input type="text" id="drawer-server-name" class="form-control" required>
+          </div>
+
+          <!-- Campo 2: Región Cloud -->
+          <div class="form-group">
+            <label for="drawer-server-region" class="form-label">Región Geográfica</label>
+            <select id="drawer-server-region" class="form-control">
+              <option value="us-east-1 (N. Virginia)">us-east-1 (N. Virginia)</option>
+              <option value="us-west-2 (Oregon)">us-west-2 (Oregon)</option>
+              <option value="eu-west-1 (Ireland)">eu-west-1 (Ireland)</option>
+              <option value="eu-central-1 (Frankfurt)">eu-central-1 (Frankfurt)</option>
+              <option value="sa-east-1 (São Paulo)">sa-east-1 (São Paulo)</option>
+              <option value="ap-southeast-1 (Singapore)">ap-southeast-1 (Singapore)</option>
+              <option value="ap-northeast-1 (Tokyo)">ap-northeast-1 (Tokyo)</option>
+            </select>
+          </div>
+
+          <!-- Campo 3: Selector con Calendario (Datepicker) -->
+          <div class="form-group">
+            <label for="drawer-server-backup" class="form-label">
+              <span>Próxima Ventana de Respaldo</span>
+              <span class="form-label-hint">Datepicker</span>
+            </label>
+            <input type="date" id="drawer-server-backup" class="form-control" required>
+          </div>
+
+          <!-- Campo 4: Switch Binario (Auto-escalado) -->
+          <div class="form-group">
+            <span class="form-label">Auto-recuperación y Escalado</span>
+            <label class="switch-container">
+              <input type="checkbox" id="drawer-server-autoscale" class="switch-input">
+              <span class="switch-track"><span class="switch-thumb"></span></span>
+              <span style="font-size: var(--text-sm);">Habilitar escalado horizontal elástico</span>
+            </label>
+          </div>
+
+          <!-- Campo 5: Área de Texto (Notas) -->
+          <div class="form-group">
+            <label for="drawer-server-notes" class="form-label">
+              <span>Notas Operativas del Ingeniero</span>
+              <span class="form-label-hint">Textarea</span>
+            </label>
+            <textarea id="drawer-server-notes" class="form-control" placeholder="Detalles de puertos, certificados o variables operativas..."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div class="drawer-footer">
+        <button type="button" class="btn btn-secondary" id="drawer-cancel-btn">Cancelar</button>
+        <button type="submit" form="drawer-config-form" class="btn btn-primary" id="drawer-save-btn">Guardar Parámetros</button>
+      </div>
+    </aside>
+
+    <!-- MODAL DIALOG: CONFIRMACIÓN DE ACCIONES CRÍTICAS Y DESTRUCTIVAS -->
+    <div class="overlay-backdrop modal-backdrop" id="confirm-modal-backdrop" aria-hidden="true">
+      <div class="modal-dialog" id="confirm-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description" aria-hidden="true">
+        <div class="modal-header">
+          <div class="modal-icon-badge is-danger" id="modal-icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          </div>
+          <div class="modal-header-content">
+            <h2 class="modal-title" id="modal-title">¿Confirmar Acción Crítica?</h2>
+            <p class="modal-description" id="modal-description">Esta operación alterará el estado de ejecución del servicio en producción.</p>
+          </div>
+          <button type="button" class="btn btn-ghost btn-icon" id="modal-close-btn" aria-label="Cerrar modal">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-alert-box" id="modal-alert-box">
+            Aviso de seguridad del sistema.
+          </div>
+
+          <!-- Campo de confirmación con salvaguarda tipográfica -->
+          <div id="modal-security-input-container" style="display: none;">
+            <label for="modal-security-input" class="form-label">
+              <span>Escribe <code>ELIMINAR</code> para desbloquear la acción:</span>
+            </label>
+            <input type="text" id="modal-security-input" class="form-control" placeholder="ELIMINAR" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="modal-cancel-btn">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="modal-confirm-btn">Confirmar Acción</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENEDOR FLOTANTE PARA NOTIFICACIONES TOAST (ZONA 3) -->
+    <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  </div>
+
+  <!-- Scripts Modulares Vanilla JavaScript -->
+  <script src="js/theme.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/servers-data.js"></script>
+  <script src="js/modal-drawer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
