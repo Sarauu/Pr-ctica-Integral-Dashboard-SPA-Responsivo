@@ -1,0 +1,216 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. HTML & Body base */
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--text-main);
+  background-color: var(--bg-app);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--timing-normal) var(--easing-standard),
+              color var(--timing-normal) var(--easing-standard);
+}
+
+/* 3. Tipografía base */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: var(--text-2xl); }
+h2 { font-size: var(--text-xl); }
+h3 { font-size: var(--text-lg); }
+h4 { font-size: var(--text-base); }
+
+p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-primary-600);
+  text-decoration: none;
+  transition: color var(--timing-fast) var(--easing-standard);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 4. Elementos interactivos e imágenes */
+img, svg, picture, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* 5. GESTIÓN RIGUROSA DE ACCESIBILIDAD Y FOCO (IxD 5D) */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color) !important;
+  outline-offset: var(--focus-ring-offset) !important;
+}
+
+/* 6. DIMENSIÓN 3D: ZONAS DE TOQUE MÍNIMAS (44x44px) */
+button,
+a.btn,
+.nav-link,
+.form-check-input,
+.action-icon-btn {
+  min-height: var(--touch-target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 7. PREFERENCIAS DE REDUCCIÓN DE MOVIMIENTO (Accesibilidad) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 8. UTILIDADES ESENCIALES */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Scrollbar estilizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}
+
+@media print {
+  /* Ocultar elementos de navegación flotante y decorativos no aptos para impresión */
+  .app-sidebar,
+  .app-header,
+  .sidebar-backdrop,
+  .toast-container,
+  .drawer,
+  .drawer-backdrop,
+  .modal-backdrop,
+  .view-actions-toolbar,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  .app-container {
+    display: block !important;
+    min-height: auto !important;
+  }
+
+  .app-main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .spa-view {
+    display: block !important;
+    page-break-after: always;
+  }
+
+  .bento-card, .table-card {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem !important;
+    background-color: #ffffff !important;
+  }
+
+  h1, h2, h3 {
+    color: #0f172a !important;
+    page-break-after: avoid;
+  }
+
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    padding: 6px 10px !important;
+  }
+
+  .badge {
+    border: 1px solid #94a3b8 !important;
+    color: #0f172a !important;
+    background: transparent !important;
+  }
+}
