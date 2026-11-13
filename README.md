@@ -1,11 +1,10 @@
 # CloudPulse | Dashboard SPA Responsivo para Monitoreo de Infraestructura Cloud
 
-> ⚠️ **RESTRICCIÓN TÉCNICA CUMPLIDA AL 100%:**  
 > El proyecto fue desarrollado exclusivamente con **HTML5 semántico**, **CSS nativo** y **JavaScript vanilla**, sin frameworks CSS prefabricados como Bootstrap, Tailwind o Foundation, garantizando el dominio total de los principios nativos.
 
 
 
-## 🏢 Escenario y Problemática
+## Escenario y Problemática
 
 Una empresa proveedora de infraestructura tecnológica requería renovar su plataforma web de monitoreo de servidores e instancias cloud. La herramienta debía permitir a los ingenieros administradores (**DevOps / SRE**):
 * Visualizar métricas de consumo en tiempo real (CPU, RAM, almacenamiento y tráfico de red).
@@ -39,24 +38,10 @@ El código fuente está estructurado de manera modular y limpia:
 
 ---
 
-## 🚀 Fases de Desarrollo y Criterios Cubiertos
+## Fases de Desarrollo y Criterios Cubiertos
 
-### Fase 1: Técnicas de UX y Prototipado
-* **User Persona:** Ficha completa de *Carlos Mendoza (34 años)*, Lead Cloud DevOps Engineer, detallando metas (SLA 99.99%, diagnóstico < 5s), frustraciones (fatiga visual, clics destructivos involuntarios) y escenario de uso cotidiano en guardias On-Call. ([Ver USER_PERSONA.md](docs/USER_PERSONA.md)).
-* **Wireframes Estructurales:** Bocetos esquemáticos en baja fidelidad para pantallas móviles y de escritorio centrados en la distribución macro de la información sin distracciones cosméticas. ([Ver WIREFRAMES.md](docs/WIREFRAMES.md)).
-* **Prototipo Interactivo:** Guía paso a paso con variables de diseño, variantes de componentes interactivos y configuración de enlaces en Figma. ([Ver FIGMA_GUIDE.md](docs/FIGMA_GUIDE.md)).
 
-### Fase 2: Arquitectura del Layout y Estrategia Mobile-First
-* **Estrategia Mobile-First:** Reglas CSS base diseñadas para smartphones en columna única vertical. Expansión a tabletas (`min-width: 768px`) y monitores de escritorio (`min-width: 1024px`) mediante Media Queries progresivas.
-* **Maquetación Bidimensional (CSS Grid):**
-  * Grid general del *app container* con áreas nombradas (`"sidebar header" / "sidebar main"`).
-  * Patrón **Bento Grid Layout** para la visualización de métricas (tarjeta Hero 2x2 para CPU agregada, indicadores 1x1 para RAM/Storage y tarjeta 2x1 para red).
-* **Maquetación Unidimensional (Flexbox):**
-  * Barra de navegación superior fija (`.app-header`).
-  * Grupos de botones, migas de pan y barras de herramientas.
-  * Encabezados de tarjetas y alineación vertical de iconos con texto.
-
-### Fase 3: Arquitectura de Interfaz en Tres Zonas
+### Fase : Arquitectura de Interfaz en Tres Zonas
 * **Zona 1 (Navegación):**
   * Header superior fijo con migas de pan (*Breadcrumbs*) que responden dinámicamente a: *¿De dónde vengo?* y *¿Dónde estoy?*.
   * Barra lateral (*Sidebar*) con enlace activo visualmente resaltado que responde a: *¿A dónde puedo ir?*.
@@ -95,7 +80,7 @@ Dado que el proyecto utiliza tecnologías web nativas puras (sin necesidad de co
 1. Clona o descarga este repositorio:
    ```bash
    git clone <url-del-repositorio>
-   cd "Práctica Integral"
+   cd "Práctica Integral Dashboard SPA Responsivo "
    ```
 2. Haz doble clic sobre el archivo `index.html` para abrirlo directamente en tu navegador web preferido (Chrome, Edge, Firefox, Safari).
 
