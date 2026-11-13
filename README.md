@@ -32,7 +32,7 @@ El código fuente está estructurado de manera modular y limpia:
 │   ├── servers-data.js        # Base de datos simulada, búsqueda, filtros y paginación
 │   ├── modal-drawer.js        # Lógica accesible de Zona 3 (trampa de foco, tecla Esc, scroll lock)
 │   └── controls-demo.js       # Laboratorio interactivo para verificar los 5 estados de control
-├── docs
+├── index.html
 └── README.md                  # Este documento
 ```
 
